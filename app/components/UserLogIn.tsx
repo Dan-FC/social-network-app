@@ -3,8 +3,8 @@ import React, { useState} from 'react';
 
 
 const UserLogin = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <View>
@@ -14,8 +14,9 @@ const UserLogin = () => {
             value = {email}
         />
         <TextInput 
-            placeholder = "passaaword"
+            placeholder = "password"
             onChangeText = {setPassword}
+            secureTextEntry = {true}
             value = {password}
         />
         <View style = {styles.button}>

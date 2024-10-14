@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, Pressable } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationProp } from "@react-navigation/native";
@@ -11,11 +11,13 @@ import Login from "./Login";
 function ToSignUpNavigator({ navigation }: { navigation: NavigationProp<any> }) {
   return (
     <View>
-        <Login />
-        <Button
-        title="SignUp"
-        onPress={() => navigation.navigate("SignUp")}
-        />
+        <Login />  
+        <Pressable style = {styles.belowText}
+          onPress={() => navigation.navigate("SignUp")}
+        >
+          <Text>Don't have an account</Text>
+          <Text style = {styles.blueText}>Sign Up</Text>
+        </Pressable>
     </View>
   );
 }
@@ -44,3 +46,18 @@ const UserNavigation = () => {
 };
 
 export default UserNavigation;
+
+
+const styles = StyleSheet.create({
+  
+  belowText: {
+    width: 360,
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  blueText: {
+    color: "blue",
+    marginRight: 10,
+  },
+});
