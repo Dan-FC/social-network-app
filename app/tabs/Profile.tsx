@@ -1,5 +1,4 @@
-import { View, Text } from "react-native";
-import UserProfile from "../components/userProfile";
+import UserProfile from "../components/UserProfile";
 
 const Profile = () => {
   return <UserProfile />;

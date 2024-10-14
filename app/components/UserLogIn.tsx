@@ -1,32 +1,47 @@
-import { StyleSheet, Text, View, Button } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationProp } from "@react-navigation/native";
-
-const Stack = createNativeStackNavigator();
-import signUp from "../tabs/SignUp";
+import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import React, { useState} from 'react';
 
 
-function UserLogInFunc({ navigation }: { navigation: NavigationProp<any> }) {
+const UserLogin = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
   return (
     <View>
-      <Button
-        title="SignUp"
-        onPress={() => navigation.navigate("Signup")}
-      />
+        <TextInput 
+            placeholder = "email"
+            onChangeText = {setEmail}
+            value = {email}
+        />
+        <TextInput 
+            placeholder = "passaaword"
+            onChangeText = {setPassword}
+            value = {password}
+        />
+        <View style = {styles.button}>
+          <Button
+              title = "Login"
+              onPress = {() => console.log(email)}
+          />    
+       </View> 
     </View>
-  );
-}
-
-const UserLogIn = () => {
-  return (
-    <NavigationContainer independent = {true}>
-        <Stack.Navigator initialRouteName =  "Login">
-            <Stack.Screen name="Login" component = {UserLogInFunc} />
-            <Stack.Screen name="Signup" component = {signUp} />
-        </Stack.Navigator>
-    </NavigationContainer>
   );
 };
 
-export default UserLogIn;
+export default UserLogin;
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    backgroundColor: "#8a0000",
+    padding: 20,
+    borderRadius: 5,
+    fontSize: 20,
+  }
+});

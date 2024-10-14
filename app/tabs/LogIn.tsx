@@ -1,10 +1,9 @@
-import { View, Text } from "react-native";
-import UserLogIn from "../components/UserLogIn";
+import UserLogin from "../components/UserLogin";
 
-const LogIn = () => {
+const Login = () => {
   return (
-    <UserLogIn />
+    <UserLogin />
   );
 };
 
-export default LogIn;
+export default Login;
