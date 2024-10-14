@@ -1,7 +1,8 @@
 import { View, Text } from "react-native";
+import UserProfile from "../components/userProfile";
 
 const Profile = () => {
-  return <Text>My Profile</Text>;
+  return <UserProfile />;
 };
 
 export default Profile;

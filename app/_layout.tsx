@@ -1,31 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, Link } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import allPost from "../app/tabs/AllPost";
-import profile from "../app/tabs/Profile";
-import following from "../app/tabs/Following";
+import Navigation from "./tabs/Navigation";
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  return (
-    <NavigationContainer independent={true}>
-      <Tab.Navigator>
-        <Tab.Screen name="All Posts" component={allPost} />
-        <Tab.Screen name="Following" component={following} />
-        <Tab.Screen name="Profile" component={profile} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+  return <Navigation />;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+const styles = StyleSheet.create({});
+
+// La idea es que aqui se ponga un operador ternario que si el usuario esta logeado muestre la navegacion y si no muestre el login
