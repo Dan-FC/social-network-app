@@ -4,11 +4,12 @@ import { NavigationContainer, Link } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Navigation from "./tabs/Navigation";
+import LogIn from "./tabs/LogIn";
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  return <Navigation />;
+  return <LogIn />;
 }
 
 const styles = StyleSheet.create({});

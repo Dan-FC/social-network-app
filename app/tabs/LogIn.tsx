@@ -1,7 +1,10 @@
 import { View, Text } from "react-native";
+import UserLogIn from "../components/UserLogIn";
 
 const LogIn = () => {
-  return <Text>Following</Text>;
+  return (
+    <UserLogIn />
+  );
 };
 
 export default LogIn;
