@@ -9,12 +9,12 @@ import Login from "./Login";
 // file change
 function ToSignUpNavigator({ navigation }: { navigation: NavigationProp<any> }) {
   return (
-    <View>
+    <View style = {styles.container}> 
         <Login />  
         <Pressable style = {styles.belowText}
           onPress={() => navigation.navigate("SignUp")}
         >
-          <Text>Don't have an account</Text>
+          <Text>Don't have an account? </Text>
           <Text style = {styles.blueText}>Sign Up</Text>
         </Pressable>
     </View>
@@ -48,7 +48,13 @@ export default UserNavigation;
 
 
 const styles = StyleSheet.create({
-  
+  container: {
+    height: 750,
+    backgroundColor: "#ffffff",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingBottom: 120,
+  },
   belowText: {
     width: 360,
     flexDirection: "row",
