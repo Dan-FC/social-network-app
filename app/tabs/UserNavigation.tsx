@@ -6,8 +6,7 @@ import { NavigationProp } from "@react-navigation/native";
 const Stack = createNativeStackNavigator();
 import SignUp from "./SignUp";
 import Login from "./Login";
-
-
+// file change
 function ToSignUpNavigator({ navigation }: { navigation: NavigationProp<any> }) {
   return (
     <View>

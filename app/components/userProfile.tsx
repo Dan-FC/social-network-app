@@ -10,7 +10,7 @@ const UserProfile = () => {
           uri: "https://reactnative.dev/img/tiny_logo.png",
         }}
       />
-      <Text style={styles.name}>Francisco Fernandez </Text>
+      <Text style={styles.name}>Francisco Fernandez</Text>
       <View style={styles.followsContainer}>
         <Text style={styles.follows}>Followers: </Text>
         <Text style={styles.follows}>Following: </Text>
