@@ -4,10 +4,14 @@ import React, { useState} from 'react';
 import TextInputLogin from "./TextInputLogin";
 import ButtonLoginSignUp from "./ButtonLoginSignUp";
 
+import { useLogin } from "../context/LoginProvider";
+
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { setLoggedIn } = useLogin() || { console: "error" }; 
 
   return (
     <View>
@@ -23,8 +27,8 @@ const UserLogin = () => {
             secureTextEntry = {true}
         />
         <ButtonLoginSignUp 
+            submit = {() => setLoggedIn(true)}
             title = "Login"
-            submit = {() => console.log("Login")}
             colorUnpressed = "#81008a"
             colorPressed = "#4b004f"
         />
