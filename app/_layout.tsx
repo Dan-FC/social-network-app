@@ -4,8 +4,8 @@ import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Navigation from "./tabs/Navigation";
-import UserNavigation from "./tabs/UserNavigation";
+
+import MainNavigation from "./tabs/MainNavigation";
 import LoginProvider from "./context/LoginProvider";
 
 const Tab = createBottomTabNavigator();
@@ -15,7 +15,7 @@ export default function App() {
   return (
     <LoginProvider>
       <NavigationContainer independent = {true}>
-        <UserNavigation />
+        <MainNavigation />
       </NavigationContainer>
     </LoginProvider>
   );

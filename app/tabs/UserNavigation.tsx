@@ -2,57 +2,45 @@ import { StyleSheet, Text, View, Button, Pressable } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationProp } from "@react-navigation/native";
 
-import Navigation from "./Navigation";
-
-//importamos el contexto
-import { useLogin } from "../context/LoginProvider";
-
 const Stack = createNativeStackNavigator();
-
 
 import SignUp from "./SignUp";
 import Login from "./Login";
 
 
-function ToSignUpOrLoginNavigator({ screen, navigation }: { screen: string, navigation: NavigationProp<any> }) {
+// esta función bien loca que me avente pasa la logíca de navegar a Login o a Sign Up
+function ToSignUpOrLoginNavigator({ newUser, navigation }: { newUser: boolean, navigation: NavigationProp<any> }) {
+  const screen = newUser ? "Sign Up" : "Login";
+
   return (
     <View style = {styles.container}> 
-        <Login />  
+        {/* aqui invertimos newUser porque siempre inicia con Login */}
+        {!newUser == true ? <SignUp /> : <Login />} 
         <Pressable style = {styles.belowText}
           onPress={() => navigation.navigate(screen)}>
-          <Text>Don't have an account? </Text>
+          {newUser == true ?  <Text>Don't have an account? </Text> : <Text>Already have an account? </Text>}
           <Text style = {styles.blueText}>{screen}</Text>
         </Pressable>
     </View>
   );
 }
 
-
-
-const LoginSignNavigator = () => {
+const UserNavigation = () => {
   return (
       <Stack.Navigator initialRouteName =  "Login">
           <Stack.Screen name="Login">
             {/* props es un objeto que se pasa a la funcion ToSignUpOrLoginNavigator */}
-            {props => <ToSignUpOrLoginNavigator {...props} screen="Sign Up" />}
+            {props => <ToSignUpOrLoginNavigator {...props} newUser={true} />}
             {/* ...props sirve para pasar las propiedades de la navegacion */}
           </Stack.Screen>
           <Stack.Screen name="Sign Up">
-            {props => <ToSignUpOrLoginNavigator {...props} screen="Login" />}
+            {props => <ToSignUpOrLoginNavigator {...props} newUser={false} />}
           </Stack.Screen>
       </Stack.Navigator>
   )
 }
 
-const UserNavigation = () => {
-  const { loggedIn } = useLogin() || { console: "error" };
-  return (
-    loggedIn ? <Navigation /> : <LoginSignNavigator />
-  );
-};
-
 export default UserNavigation;
-
 
 const styles = StyleSheet.create({
   container: {
