@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Button} from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
 import React, { useState} from 'react';
 
 import TextInputLogin from "./TextInputLogin";
@@ -10,8 +10,50 @@ import { useLogin } from "../context/LoginProvider";
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { setLoggedIn } = useLogin() || { console: "error" }; 
+
+  const PostLogin = async () => {
+    try {
+      setIsLoading(true);
+      setErrorMessage("");
+      const response = await fetch("https://social-network-v7j7.onrender.com/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      })
+      const data = await response.json();
+
+      console.log(data);
+
+      //errores de validacion
+      if (data.errors) {
+        throw new Error(data.errors[0].msg);
+      } else if (data.error) {
+        throw new Error(data.error);
+      } else if (data.token) {
+        //obtenemos el token, quitamos el error y pa dentro
+        setLoggedIn(true);
+      } 
+
+    } catch (error) {
+      //errores de codigo o de red
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+        console.log(error.message);
+      } else {
+        //errores que el servidor nos manda
+        setErrorMessage(String(error));
+        console.log(error);
+      }
+    } finally {
+        setIsLoading(false);
+    } 
+  }
 
   return (
     <View>
@@ -27,11 +69,13 @@ const UserLogin = () => {
             secureTextEntry = {true}
         />
         <ButtonLoginSignUp 
-            submit = {() => setLoggedIn(true)}
-            title = "Login"
+            submit = {() => PostLogin()}
+            title = {isLoading ? "Logging In..." : "Login"}
             colorUnpressed = "#81008a"
             colorPressed = "#4b004f"
         />
+        <Text style = {styles.errorText}>{errorMessage}</Text>
+        {isLoading && <ActivityIndicator size = "large" color = "#81008a" />}
     </View>
   );
 };
@@ -40,14 +84,9 @@ export default UserLogin;
 
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: "#81008a",
-    padding: 20,
-    borderRadius: 5,
-    fontSize: 20,
-    width: 340,
-    alignSelf: "center",
-    height: 40,
-    alignContent: "center",
-  }
+  errorText: {
+    color: "red",
+    textAlign: "center",
+    fontSize: 14,
+  },
 });
