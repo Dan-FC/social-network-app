@@ -1,9 +1,13 @@
-import { View, Text } from "react-native";
+import Post from "../components/Post";
 
 const AllPost = () => {
-  return <Text>
-           
-    All Posts</Text>;
+  return (
+    <>
+      <Post />
+      <Post />
+      <Post />
+    </>
+  );
 };
 
 export default AllPost;

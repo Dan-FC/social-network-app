@@ -9,7 +9,7 @@ import UserNavigation from "./tabs/UserNavigation";
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  return <UserNavigation />;
+  return <Navigation />;
 }
 
 const styles = StyleSheet.create({});
