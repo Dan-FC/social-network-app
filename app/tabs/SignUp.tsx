@@ -1,7 +1,7 @@
-import { View, Text } from "react-native";
+import UserSignUp from "../components/UserSignUp";
 
 const SignUp = () => {
-  return <Text>Sign Up</Text>;
+  return <UserSignUp />;
 };
 
 export default SignUp;
