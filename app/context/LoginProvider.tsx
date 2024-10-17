@@ -4,6 +4,12 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 interface LoginContextType {
     loggedIn: boolean;
     setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+    userID: number;
+    setUserID: React.Dispatch<React.SetStateAction<number>>;
+    token: string;
+    setToken: React.Dispatch<React.SetStateAction<string>>;
+    userName: string;
+    setUserName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // Inicializamos el contexto, con un valor predeterminado undefined para manejar casos donde no esté envuelto por el provider.
@@ -13,10 +19,14 @@ const LoginContext = createContext<LoginContextType | undefined>(undefined);
 const LoginProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     const [loggedIn, setLoggedIn] = useState(false);
+    
+    const [userID, setUserID] = useState(0);
+    const [token, setToken] = useState("");
+    const [userName, setUserName] = useState("");
 
     // Proveemos el estado y la función para actualizarlo a los componentes hijos.
     return (
-        <LoginContext.Provider value={{ loggedIn, setLoggedIn }}>
+        <LoginContext.Provider value={{ loggedIn, setLoggedIn, userID, setUserID, token, setToken, userName, setUserName  }}>
             {children}
         </LoginContext.Provider>
     );

@@ -14,6 +14,9 @@ const UserLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { setLoggedIn } = useLogin() || { console: "error" }; 
+  const { setToken } = useLogin() || { console: "could not get token" };
+  const { setUserID } = useLogin() || { console: "could not get id" };
+  const { setUserName } = useLogin() || { console: "could not get name" };
 
   const PostLogin = async () => {
     try {
@@ -38,6 +41,9 @@ const UserLogin = () => {
       } else if (data.token) {
         //obtenemos el token, quitamos el error y pa dentro
         setLoggedIn(true);
+        setToken(data.token);
+        setUserID(data.id);
+        setUserName(data.name);
       } 
 
     } catch (error) {
