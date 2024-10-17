@@ -6,8 +6,8 @@ interface LoginContextType {
     setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
     userID: number;
     setUserID: React.Dispatch<React.SetStateAction<number>>;
-    token: string;
-    setToken: React.Dispatch<React.SetStateAction<string>>;
+    userToken: string;
+    setUserToken: React.Dispatch<React.SetStateAction<string>>;
     userName: string;
     setUserName: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -21,12 +21,12 @@ const LoginProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(false);
     
     const [userID, setUserID] = useState(0);
-    const [token, setToken] = useState("");
+    const [userToken, setUserToken] = useState("");
     const [userName, setUserName] = useState("");
 
     // Proveemos el estado y la función para actualizarlo a los componentes hijos.
     return (
-        <LoginContext.Provider value={{ loggedIn, setLoggedIn, userID, setUserID, token, setToken, userName, setUserName  }}>
+        <LoginContext.Provider value={{ loggedIn, setLoggedIn, userID, setUserID, userToken, setUserToken, userName, setUserName  }}>
             {children}
         </LoginContext.Provider>
     );

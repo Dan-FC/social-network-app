@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 
 import TextInputLogin from "./TextInputLogin";
 import ButtonLoginSignUp from "./ButtonLoginSignUp";
@@ -13,10 +13,7 @@ const UserLogin = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { setLoggedIn } = useLogin() || { console: "error" }; 
-  const { setToken } = useLogin() || { console: "could not get token" };
-  const { setUserID } = useLogin() || { console: "could not get id" };
-  const { setUserName } = useLogin() || { console: "could not get name" };
+  const { setLoggedIn, setUserToken, setUserID, setUserName, userToken , loggedIn, userID, userName} = useLogin();
 
   const PostLogin = async () => {
     try {
@@ -40,10 +37,11 @@ const UserLogin = () => {
         throw new Error(data.error);
       } else if (data.token) {
         //obtenemos el token, quitamos el error y pa dentro
+      
+        setUserToken(data.token);
+        setUserID(data.userId);
+        setUserName(data.username);
         setLoggedIn(true);
-        setToken(data.token);
-        setUserID(data.id);
-        setUserName(data.name);
       } 
 
     } catch (error) {
