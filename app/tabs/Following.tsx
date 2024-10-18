@@ -1,7 +1,11 @@
-import { View, Text } from "react-native";
+import AllPost from "./AllPost";
 
 const Following = () => {
-  return <Text>Following</Text>;
+  return (
+    <>
+      <AllPost option={2} />
+    </>
+  );
 };
 
 export default Following;

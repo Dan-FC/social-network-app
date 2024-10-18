@@ -1,3 +1,4 @@
+import { Text, StyleSheet } from "react-native";
 import React, {useEffect, useState} from "react";
 import { FlatList, RefreshControl } from "react-native";
 
@@ -11,16 +12,34 @@ interface PostInterface {
   likes: Array<number>;
 }
 
-const AllPost = () => {
+//El prop option es para poder hacer un switch case y 
+// poder cambiar la url de la api
+interface Props {
+  option: number;
+}
+
+const AllPost = ( props : Props) => {
   const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [errorText, setErrorText] = useState("");
 
   const { userToken, userID } = useLogin() || { console: "error" };
 
+  let url = "";
+
+  switch (props.option) {
+    case 1:
+      url = "https://social-network-v7j7.onrender.com/api/posts?page=1&limit=10";
+      break;
+    case 2:
+      url = "https://social-network-v7j7.onrender.com/api/feed?page=1&limit=10";
+      break;
+    default:
+      url = "https://social-network-v7j7.onrender.com/api/posts?page=1&limit=10";
+  }
+
   const fetchPosts = async () => {
     try {
-      setIsLoading(true); 
-      const response = await fetch("https://social-network-v7j7.onrender.com/api/posts?page=1&limit=10", {
+      const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -31,17 +50,26 @@ const AllPost = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setPosts(data);
-      } //errores de validacion
+        //si data es un array vacio, no hay posts
+        if (data.length === 0) {
+          throw new Error("There are no posts from the users you follow");
+        } else {
+          setPosts(data);
+          setErrorText("");
+        }
+      } 
+      //errores de validacion
       if (data.errors) {
         throw new Error(data.errors[0].msg);
       } else if (data.error) {
         throw new Error(data.error);
-    }} catch (error) {
-      console.log(error instanceof Error ? error.message : "Unknown error");
-    } finally {
-      setIsLoading(false);
-    }
+      } } catch (error) {
+      if (error instanceof Error) {
+        setErrorText(error.message);
+      } //errores que el servidor nos manda
+      else {
+        setErrorText(String(error));
+      } }
   }
 
   useEffect(() => {
@@ -51,6 +79,7 @@ const AllPost = () => {
 
   return (
     <>
+      <Text style = {styles.errorText}>{errorText}</Text>
       <FlatList
         data={posts}
         renderItem={({ item }: { item: PostInterface }) => 
@@ -75,3 +104,12 @@ const AllPost = () => {
 };
 
 export default AllPost;
+
+
+const styles = StyleSheet.create({
+  errorText: {
+    color: "red",
+    fontSize: 20,
+    textAlign: "center",
+  },
+});

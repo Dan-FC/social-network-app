@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
-import React, { useState, useEffect} from 'react';
+import React, { useState} from 'react';
 
 import TextInputLogin from "./TextInputLogin";
 import ButtonLoginSignUp from "./ButtonLoginSignUp";
