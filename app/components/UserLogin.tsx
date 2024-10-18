@@ -13,7 +13,7 @@ const UserLogin = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { setLoggedIn, setUserToken, setUserID, setUserName, userToken , loggedIn, userID, userName} = useLogin();
+  const { setLoggedIn, setUserToken, setUserID, setUserName} = useLogin();
 
   const PostLogin = async () => {
     try {
@@ -27,8 +27,6 @@ const UserLogin = () => {
         body: JSON.stringify({ email, password }),
       })
       const data = await response.json();
-
-      console.log(data);
 
       //errores de validacion
       if (data.errors) {
