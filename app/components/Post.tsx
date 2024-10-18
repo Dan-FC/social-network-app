@@ -1,11 +1,18 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
-const Post = () => {
+interface PostProps {
+  UserName: string;
+  PostDescription: string;
+  Likes: number;
+}
+
+
+const Post = (props : PostProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.postBox}>
-        <Text style={styles.userName}>Tomas Jefferson</Text>
+        <Text style={styles.userName}>{props.UserName}</Text>
 
         <View style={styles.imageText}>
           <Image
@@ -15,14 +22,13 @@ const Post = () => {
             }}
           />
           <Text style={styles.postDescription}>
-            Nunca habia sentido tantas cosas tan especiales en un entorno tan
-            favorable.
+            {props.PostDescription}
           </Text>
         </View>
 
         <View style={styles.likeGroup}>
           <Text style={styles.like}>❤</Text>
-          <Text style={styles.likeCounter}>2 likes</Text>
+          <Text style={styles.likeCounter}>{props.Likes} likes</Text>
         </View>
       </View>
     </View>
