@@ -1,9 +1,9 @@
-import AllPost from "./AllPost";
+import Feed from "../components/Feed";
 
 const Following = () => {
   return (
     <>
-      <AllPost option={2} />
+      <Feed option={2} />
     </>
   );
 };
