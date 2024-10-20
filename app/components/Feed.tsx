@@ -100,7 +100,7 @@ const Feed = ( props : Props) => {
  
     return (
       <>
-      <ButtonNewPost submit={()=>  navigation.navigate("Share")} title="+" colorUnpressed="#81008a" colorPressed="#a01c9e" />
+      <ButtonNewPost submit={()=>  navigation.navigate("Share")} title="+" colorUnpressed="#81008a" colorPressed="#a01c9e"/>
 
       <Text style = {styles.errorText}>{errorText}</Text>
       <FlatList
