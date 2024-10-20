@@ -94,7 +94,7 @@ const UserProfile = (props : Props) => {
   }, []);
 
   if (isLoading) {
-    return <ActivityIndicator size="large" color="#81008a" />;
+    return <ActivityIndicator size="small" color="#81008a" />;
   }
 
   return (
@@ -131,7 +131,7 @@ const UserProfile = (props : Props) => {
       data={userPosts}
       renderItem={({ item }) => 
         <Post 
-          id={item._id}
+          id={item.id}
           UserName={item.username}
           PostDescription={item.content}
           Likes={item.likes.length} 

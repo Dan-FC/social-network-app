@@ -32,9 +32,9 @@ const Navigation = () => {
         tabBarInactiveTintColor: "gray",
       })}
     >
-      <Tab.Screen name="All Posts" component={allPost} />
-      <Tab.Screen name="Following" component={following} />
-      <Tab.Screen name="Profile" component={profile} />
+      <Tab.Screen name="All Posts" component={allPost} options={{unmountOnBlur: true}}/>
+      <Tab.Screen name="Following" component={following} options={{unmountOnBlur: true}}/>
+      <Tab.Screen name="Profile" component={profile} options={{unmountOnBlur: true}}/>
     </Tab.Navigator>
   );
 };

@@ -40,6 +40,7 @@ const Post = (props: PostProps) => {
   };
 
   const handleEditPost = async () => {
+    console.log("Editing post with ID:", props.id);
     try {
       const response = await fetch(`https://social-network-v7j7.onrender.com/api/posts/${props.id}`, {
         method: "PATCH",

@@ -1,4 +1,4 @@
-import { Text, StyleSheet, View, Pressable } from "react-native";
+import { Text, StyleSheet, View, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { FlatList, RefreshControl } from "react-native";
 import Post from "../components/Post";
@@ -23,6 +23,7 @@ const Stack = createNativeStackNavigator();
 
 const Feed = (props: Props) => {
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [errorText, setErrorText] = useState("");
   const { userToken } = useLogin() || { console: "error" };
 
@@ -40,6 +41,7 @@ const Feed = (props: Props) => {
   }
 
   const fetchPosts = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(url, {
         method: "GET",
@@ -71,6 +73,8 @@ const Feed = (props: Props) => {
       } else {
         setErrorText(String(error));
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -87,8 +91,8 @@ const Feed = (props: Props) => {
   }
 
   function NavigateToFeed({ navigation }: { navigation: NavigationProp<any> }) {
-    return (
-      <>
+    return !isLoading ? (
+      <> 
         <View style={styles.buttonContainer}>
           <ButtonNewPost submit={() => navigation.navigate("Share")} title="+" colorUnpressed="#81008a" colorPressed="#a01c9e" />
         </View>
@@ -111,11 +115,12 @@ const Feed = (props: Props) => {
               tintColor="#81008a"
               titleColor="#fff"
             />
-          }
-        />
-
+            }
+          />
       </>
-    );
+    ) : (
+      <ActivityIndicator size="small" color="#81008a" />
+      );
   }
 
   return (
