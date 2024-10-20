@@ -1,10 +1,17 @@
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, View, Pressable } from "react-native";
 import React, {useEffect, useState} from "react";
 import { FlatList, RefreshControl } from "react-native";
 
 import Post from "../components/Post";
 
+import ButtonNewPost from "../components/ButtonNewPost";
+
 import { useLogin } from "../context/LoginProvider";
+
+import { NavigationProp } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import CreatePost from "../tabs/CreatePost";
+
 
 interface PostInterface {
   username: string;
@@ -17,6 +24,8 @@ interface PostInterface {
 interface Props {
   option: number;
 }
+
+const Stack = createNativeStackNavigator();
 
 const Feed = ( props : Props) => {
   const [posts, setPosts] = useState([]);
@@ -76,9 +85,23 @@ const Feed = ( props : Props) => {
     fetchPosts();
   }, []);
 
+  function ToNavigateNewPost({ navigation }: { navigation: NavigationProp<any> }) {
+ 
+    return (
+      <>
+        <CreatePost />
+      </>
 
-  return (
-    <>
+    );
+  }
+
+
+  function NavigateToFeed({ navigation }: { navigation: NavigationProp<any> }) {
+ 
+    return (
+      <>
+      <ButtonNewPost submit={()=>  navigation.navigate("Share")} title="+" colorUnpressed="#81008a" colorPressed="#a01c9e" />
+
       <Text style = {styles.errorText}>{errorText}</Text>
       <FlatList
         data={posts}
@@ -99,6 +122,23 @@ const Feed = ( props : Props) => {
            />
         } 
       />
+      </>
+
+    );
+  }
+
+  return (
+    <>
+        <Stack.Navigator initialRouteName="All Posts">
+        <Stack.Screen name="All Posts" options={{headerShown : false}}>
+            {props => <NavigateToFeed {...props}  />}
+          </Stack.Screen>
+          <Stack.Screen name="Share">
+            {/* props es un objeto que se pasa a la funcion ToSignUpOrLoginNavigator */}
+            {props => <ToNavigateNewPost {...props}  />}
+            {/* ...props sirve para pasar las propiedades de la navegacion */}
+          </Stack.Screen>
+      </Stack.Navigator>
     </>
   );
 };
