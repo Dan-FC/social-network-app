@@ -131,9 +131,11 @@ const UserProfile = (props : Props) => {
       data={userPosts}
       renderItem={({ item }) => 
         <Post 
+          id={item._id}
           UserName={item.username}
           PostDescription={item.content}
           Likes={item.likes.length} 
+          onPostUpdated={fetchUserPosts}
         />}
       keyExtractor={(item) => item._id}
       refreshing={isLoading}
