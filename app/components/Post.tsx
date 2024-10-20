@@ -75,7 +75,10 @@ const Post = (props: PostProps) => {
         {props.navFrom ? 
         <>
         <Pressable style={({ pressed }) => ({
-          backgroundColor: pressed ? 'rgb(213, 232, 255)' : '#c0d8e2'
+          borderRadius: 8,
+          height: 26,
+          width: props.UserName.length * 12,
+          backgroundColor: pressed ? 'rgb(213, 232, 255)' : '#eddaf8'
           })} onPress={props.navFrom}>
           <Text style={styles.userName}>{props.UserName}</Text>
         </Pressable>
