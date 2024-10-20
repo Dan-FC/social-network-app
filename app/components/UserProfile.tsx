@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import { View, Text, StyleSheet, Image, FlatList, ActivityIndicator } from "react-native";
 
 import Post from "../components/Post";
@@ -121,9 +121,7 @@ const UserProfile = (props : Props) => {
         userToFollow={props.profileId} 
         colorFollowed="#81008a"
         colorNotFollowed="#6a6a6a"
-        /> 
-
-        : null}
+      /> : null}
     </View>
     <Text style = {styles.postHeader}>Posts</Text>
     {errorMessage ==="" ? <>
@@ -137,7 +135,6 @@ const UserProfile = (props : Props) => {
           Likes={item.likes.length} 
           onPostUpdated={fetchUserPosts}
         />}
-      keyExtractor={(item) => item._id}
       refreshing={isLoading}
       onRefresh={fetchUserPosts}
     />

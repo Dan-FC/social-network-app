@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FlatList, RefreshControl } from "react-native";
 import Post from "../components/Post";
 import ButtonNewPost from "../components/ButtonNewPost";
+import UserProfile from "../components/UserProfile";
 import { useLogin } from "../context/LoginProvider";
 import { NavigationProp } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -13,6 +14,7 @@ interface PostInterface {
   content: string;
   likes: Array<number>;
   id: number;
+  user_id: number;
 }
 
 interface Props {
@@ -23,6 +25,7 @@ const Stack = createNativeStackNavigator();
 
 const Feed = (props: Props) => {
   const [posts, setPosts] = useState([]);
+  const [userToView, setUserToView] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [errorText, setErrorText] = useState("");
   const { userToken } = useLogin() || { console: "error" };
@@ -82,6 +85,20 @@ const Feed = (props: Props) => {
     fetchPosts();
   }, []);
 
+
+  function ProfileHanler (id: number, navigation: NavigationProp<any>) {
+    setUserToView(id);
+    navigation.navigate("UserProfile");
+  }
+
+  function ToUserProfile({ id, navigation }: { id:number, navigation: NavigationProp<any> }) {
+    return (
+      <>
+        <UserProfile profileId = {id}/>
+      </>
+    );
+  }
+
   function ToNavigateNewPost({ navigation }: { navigation: NavigationProp<any> }) {
     return (
       <>
@@ -106,6 +123,7 @@ const Feed = (props: Props) => {
               Likes={item.likes.length}
               id={item.id}
               onPostUpdated={fetchPosts}
+              navFrom={() => ProfileHanler(item.user_id, navigation)}	
             />}
           refreshControl={
             <RefreshControl
@@ -133,6 +151,9 @@ const Feed = (props: Props) => {
           {/* props es un objeto que se pasa a la funcion ToSignUpOrLoginNavigator */}
           {props => <ToNavigateNewPost {...props}  />}
           {/* ...props sirve para pasar las propiedades de la navegacion */}
+        </Stack.Screen>
+        <Stack.Screen name="UserProfile" options={{headerShown : true}}>
+          {props => <ToUserProfile id = {userToView} {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </>

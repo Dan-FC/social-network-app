@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, Pressable, Alert, TextInput } from "react-native";
+
 import { useLogin } from "../context/LoginProvider"; // Importamos el contexto de Login
 
 interface PostProps {
@@ -8,6 +9,7 @@ interface PostProps {
   PostDescription: string;
   Likes: number;
   onPostUpdated?: (updatedContent: string) => void; // Prop para manejar la actualización del post
+  navFrom?: () => void; // Prop para navegar a otra pantalla
 }
 
 const Post = (props: PostProps) => {
@@ -70,9 +72,16 @@ const Post = (props: PostProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.postBox}>
-        <Text style={styles.userName}>{props.UserName}</Text>
-
+        {props.navFrom ? 
+        <>
+        <Pressable style={({ pressed }) => ({
+          backgroundColor: pressed ? 'rgb(213, 232, 255)' : '#c0d8e2'
+          })} onPress={props.navFrom}>
+          <Text style={styles.userName}>{props.UserName}</Text>
+        </Pressable>
+        </> : <Text style={styles.userName}>{props.UserName}</Text> }
         <View style={styles.imageText}>
+        
           <Image
             style={styles.image}
             source={{

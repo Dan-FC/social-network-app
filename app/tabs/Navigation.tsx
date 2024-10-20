@@ -1,5 +1,8 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import React, { useState, useEffect} from "react";
+import { StyleSheet, Text, View, Image, ActivityIndicator } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
+
 import allPost from "../tabs/AllPost";
 import profile from "../tabs/Profile";
 import following from "../tabs/Following";
@@ -12,6 +15,32 @@ const TabIcon = ({ source }: { source: any }) => (
 );
 
 const Navigation = () => {
+  const navigation = useNavigation();
+
+  const [isTabHeaderVisible, setIsTabHeaderVisible] = useState(true);
+
+  //estaba bien feo que se quedara e header de las tabs en la pantalla de perfil y create post
+  useEffect(() => {
+    
+    const unsubscribe = navigation.addListener('state', () => {
+      const state = navigation.getState();
+      if (!state) return;
+      const currentRoute = state.routes[state.index];
+      const nestedState = currentRoute.state?.routes;
+      const activeScreenName = nestedState ? nestedState[nestedState.length - 1].name : currentRoute.name;
+
+      const stackScreens = ['Share', 'UserProfile'];
+
+      if (stackScreens.includes(activeScreenName)) {
+        setIsTabHeaderVisible(false);
+      } else {
+        setIsTabHeaderVisible(true);
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -32,9 +61,11 @@ const Navigation = () => {
         tabBarInactiveTintColor: "gray",
       })}
     >
-      <Tab.Screen name="All Posts" component={allPost} options={{unmountOnBlur: true}}/>
-      <Tab.Screen name="Following" component={following} options={{unmountOnBlur: true}}/>
+      
+      <Tab.Screen name="All Posts" component={allPost} options={{unmountOnBlur: true, headerShown: isTabHeaderVisible}}/>
+      <Tab.Screen name="Following" component={following} options={{unmountOnBlur: true, headerShown: isTabHeaderVisible}}/>
       <Tab.Screen name="Profile" component={profile} options={{unmountOnBlur: true}}/>
+      
     </Tab.Navigator>
   );
 };
