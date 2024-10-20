@@ -99,7 +99,7 @@ const Post = (props: PostProps) => {
                 <Text style={styles.delete}>🗑️</Text>
               </Pressable>
               <Pressable onPress={() => setIsEditing(!isEditing)}>
-                <Text style={styles.edit}>{isEditing ? "✔️" : "✎"}</Text>
+                <Text style={styles.edit}>{isEditing ? "✔️" : "✏️"}</Text>
               </Pressable>
               {isEditing && (
                 <Pressable onPress={handleEditPost}>
@@ -160,8 +160,9 @@ const styles = StyleSheet.create({
   },
   likeGroup: {
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "space-between", // Espacio entre los elementos
     marginTop: 10,
+    alignItems: "center", // Alinea verticalmente
   },
   like: {
     fontSize: 16,
@@ -174,7 +175,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  delete: { fontSize: 16, marginRight: 10 },
-  edit: { fontSize: 16, marginRight: 10 },
-  submit: { fontSize: 16, marginRight: 10, color: 'green' }, // Estilo para el botón de enviar
+  actionGroup: {
+    flexDirection: "row", // Para alinear los botones de acción en fila
+    alignItems: "center", // Alinea verticalmente los iconos
+    marginLeft: 'auto', // Mueve el grupo de acciones a la derecha
+  },
+  delete: { fontSize: 16, marginLeft: 10 },
+  edit: { fontSize: 16, marginLeft: 10 },
+  submit: { fontSize: 16, marginLeft: 10, color: 'green' }, // Estilo para el botón de enviar
 });
