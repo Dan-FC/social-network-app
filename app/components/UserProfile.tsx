@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, Image, FlatList, ActivityIndicator } from "react-native";
+
+import Post from "../components/Post";
+import FollowButton from "./FollowButton";
 
 import { useLogin } from "../context/LoginProvider";
+
 
 type UserData = {
   id: number;
@@ -10,8 +14,13 @@ type UserData = {
   following_count: string;
 };
 
-const UserProfile = () => {
+interface Props {
+  profileId: number;
+}
+
+const UserProfile = (props : Props) => {
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [userPosts, setUserPosts] = useState(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -21,7 +30,7 @@ const UserProfile = () => {
   const fetchUserProfile = async () => {
     try {
       const response = await fetch(
-        `https://social-network-v7j7.onrender.com/api/users/${userID}`,
+        `https://social-network-v7j7.onrender.com/api/users/${props.profileId}`,
         {
           method: "GET",
           headers: {
@@ -32,7 +41,6 @@ const UserProfile = () => {
       );
 
       const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
         setUserData(data);
@@ -46,19 +54,51 @@ const UserProfile = () => {
     }
   };
 
+  const fetchUserPosts = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://social-network-v7j7.onrender.com/api/users/${props.profileId}/posts?page=1&limit=10`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        //si data es un array vacio, no hay posts
+        if (data.length === 0) {
+          throw new Error("You have no posts yet. Start posting bro!");
+        } else {
+          setUserPosts(data);
+          setErrorMessage("");
+        }
+      } else {
+        throw new Error(data.error || "Error fetching user data");
+      }
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unknown error");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchUserProfile();
+    fetchUserPosts();
   }, []);
 
   if (isLoading) {
     return <ActivityIndicator size="large" color="#81008a" />;
   }
 
-  if (errorMessage) {
-    return <Text style={styles.errorText}>{errorMessage}</Text>;
-  }
-
   return (
+    <>
     <View style={styles.container}>
       <Image
         style={styles.image}
@@ -75,7 +115,33 @@ const UserProfile = () => {
           Following: {userData?.following_count}
         </Text>
       </View>
+      {userID !== props.profileId ? 
+      <FollowButton 
+        isFollowing={false}
+        userToFollow={props.profileId} 
+        colorFollowed="#81008a"
+        colorNotFollowed="#6a6a6a"
+        /> 
+
+        : null}
     </View>
+    <Text style = {styles.postHeader}>Posts</Text>
+    {errorMessage ==="" ? <>
+    <FlatList 
+      data={userPosts}
+      renderItem={({ item }) => 
+        <Post 
+          UserName={item.username}
+          PostDescription={item.content}
+          Likes={item.likes.length} 
+        />}
+      keyExtractor={(item) => item._id}
+      refreshing={isLoading}
+      onRefresh={fetchUserPosts}
+    />
+    </> : 
+    <Text style = {styles.errorText}>{errorMessage}</Text>}
+  </>
   );
 };
 
@@ -109,5 +175,11 @@ const styles = StyleSheet.create({
     color: "red",
     textAlign: "center",
     fontSize: 14,
+  },
+  postHeader: {
+    fontSize: 16,
+    fontWeight: "bold",
+    paddingLeft: 20,
+    paddingTop: 20,
   },
 });

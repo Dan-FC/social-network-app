@@ -129,15 +129,15 @@ const Feed = ( props : Props) => {
 
   return (
     <>
-        <Stack.Navigator initialRouteName="All Posts">
-        <Stack.Screen name="All Posts" options={{headerShown : false}}>
-            {props => <NavigateToFeed {...props}  />}
-          </Stack.Screen>
-          <Stack.Screen name="Share">
-            {/* props es un objeto que se pasa a la funcion ToSignUpOrLoginNavigator */}
-            {props => <ToNavigateNewPost {...props}  />}
-            {/* ...props sirve para pasar las propiedades de la navegacion */}
-          </Stack.Screen>
+      <Stack.Navigator initialRouteName="Main">
+        <Stack.Screen name="Main" options={{headerShown : false}}>
+          {props => <NavigateToFeed {...props}  />}
+        </Stack.Screen>
+        <Stack.Screen name="Share">
+          {/* props es un objeto que se pasa a la funcion ToSignUpOrLoginNavigator */}
+          {props => <ToNavigateNewPost {...props}  />}
+          {/* ...props sirve para pasar las propiedades de la navegacion */}
+        </Stack.Screen>
       </Stack.Navigator>
     </>
   );
