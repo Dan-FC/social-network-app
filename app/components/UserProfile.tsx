@@ -12,6 +12,7 @@ type UserData = {
   username: string;
   follower_count: string;
   following_count: string;
+  is_following: boolean;
 };
 
 interface Props {
@@ -117,10 +118,11 @@ const UserProfile = (props : Props) => {
       </View>
       {userID !== props.profileId ? 
       <FollowButton 
-        isFollowing={false}
+        isFollowing={userData?.is_following || false}
         userToFollow={props.profileId} 
         colorFollowed="#81008a"
         colorNotFollowed="#6a6a6a"
+        onFollow={fetchUserProfile}
       /> : null}
     </View>
     <Text style = {styles.postHeader}>Posts</Text>
@@ -136,7 +138,7 @@ const UserProfile = (props : Props) => {
           onPostUpdated={fetchUserPosts}
         />}
       refreshing={isLoading}
-      onRefresh={fetchUserPosts}
+      onRefresh={() => { fetchUserPosts(); fetchUserProfile(); }}
     />
     </> : 
     <Text style = {styles.errorText}>{errorMessage}</Text>}
