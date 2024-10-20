@@ -1,11 +1,11 @@
 import { Text, StyleSheet, View, ActivityIndicator } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FlatList, RefreshControl } from "react-native";
 import Post from "../components/Post";
 import ButtonNewPost from "../components/ButtonNewPost";
 import UserProfile from "../components/UserProfile";
 import { useLogin } from "../context/LoginProvider";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CreatePost from "../tabs/CreatePost";
 
@@ -81,9 +81,11 @@ const Feed = (props: Props) => {
     }
   };
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchPosts();
+    }, [])
+  );
 
 
   function ProfileHanler (id: number, navigation: NavigationProp<any>) {
