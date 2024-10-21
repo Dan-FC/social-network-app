@@ -5,7 +5,7 @@
     "scheme": "facecook",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/blevins_1.png",
+    "icon": "https://heronscrossing.vet/wp-content/uploads/Golden-Retriever.jpg",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
