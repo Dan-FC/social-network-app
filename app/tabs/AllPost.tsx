@@ -1,7 +1,11 @@
-import { View, Text } from "react-native";
+import Feed from "../components/Feed";
 
 const AllPost = () => {
-  return <Text>All Posts</Text>;
+  return (
+    <>
+      <Feed option={1} />
+    </>
+  );
 };
 
 export default AllPost;

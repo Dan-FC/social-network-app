@@ -1,7 +1,15 @@
-import { View, Text } from "react-native";
+import UserProfile from "../components/UserProfile";
+
+import { useLogin } from "../context/LoginProvider";
 
 const Profile = () => {
-  return <Text>My Profile</Text>;
+  const { userID } = useLogin() || { console: "error" };
+
+  return (
+    <>
+      <UserProfile profileId={userID} />
+    </>
+  );
 };
 
 export default Profile;

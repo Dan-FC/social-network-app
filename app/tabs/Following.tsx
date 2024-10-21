@@ -1,7 +1,11 @@
-import { View, Text } from "react-native";
+import Feed from "../components/Feed";
 
 const Following = () => {
-  return <Text>Following</Text>;
+  return (
+    <>
+      <Feed option={2} />
+    </>
+  );
 };
 
 export default Following;
