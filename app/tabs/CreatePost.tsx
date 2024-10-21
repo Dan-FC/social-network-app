@@ -37,7 +37,7 @@ const CreatePost: React.FC = () => {
         throw new Error(data.error || "An error occurred while creating the post.");
       }
 
-      console.log("Post created successfully:", data);
+      
       setPostContent(""); // Limpiamos el campo después de hacer el POST
 
     } catch (error) {

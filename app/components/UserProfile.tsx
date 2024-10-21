@@ -136,6 +136,8 @@ const UserProfile = (props : Props) => {
           PostDescription={item.content}
           Likes={item.likes.length} 
           onPostUpdated={fetchUserPosts}
+          isLiked={item.likes.includes(userID)}
+          onLike={fetchUserPosts}
         />}
       refreshing={isLoading}
       onRefresh={() => { fetchUserPosts(); fetchUserProfile(); }}

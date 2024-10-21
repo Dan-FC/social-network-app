@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, Pressable, Alert, TextInput } from "react-native";
 
+import LikeButton from "./LikeButtom";
+
 import { useLogin } from "../context/LoginProvider"; // Importamos el contexto de Login
 
 interface PostProps {
@@ -8,8 +10,10 @@ interface PostProps {
   UserName: string;
   PostDescription: string;
   Likes: number;
-  onPostUpdated?: (updatedContent: string) => void; // Prop para manejar la actualización del post
+  onPostUpdated?: () => void; // Prop para manejar la actualización del post
   navFrom?: () => void; // Prop para navegar a otra pantalla
+  onLike?: () => void; // Prop para manejar el evento de "me gusta"
+  isLiked?: boolean; // Prop para indicar si el post ha sido marcado como "me gusta"
 }
 
 const Post = (props: PostProps) => {
@@ -31,6 +35,9 @@ const Post = (props: PostProps) => {
 
       if (!response.ok) {
         throw new Error(data.error || "An error occurred while deleting the post.");
+      }
+      if (props.onPostUpdated) {
+        props.onPostUpdated(); // Actualizamos el contenido del post en el componente padre
       }
 
       Alert.alert("Success", data.message);
@@ -57,6 +64,10 @@ const Post = (props: PostProps) => {
 
       if (!response.ok) {
         throw new Error(data.error || "An error occurred while updating the post.");
+      }
+
+      if (props.onPostUpdated) {
+        props.onPostUpdated(); // Actualizamos el contenido del post en el componente padre
       }
 
       Alert.alert("Success", "Post updated successfully!");
@@ -103,9 +114,14 @@ const Post = (props: PostProps) => {
         </View>
 
         <View style={styles.likeGroup}>
-          <Text style={styles.like}>❤</Text>
-          <Text style={styles.likeCounter}>{props.Likes} likes</Text>
-
+          {/* le iba a cambiar las funcionalidades de like dependiendo si era tu post o no, pero nah */}
+          <LikeButton 
+            postId={props.id} 
+            likes={props.Likes} 
+            isLiked={props.isLiked} 
+            onLike={props.onLike}
+          />
+          
           {userName === props.UserName ? (
             <>
               <Pressable onPress={handleDeletePost}>

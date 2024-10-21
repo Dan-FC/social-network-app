@@ -1,11 +1,11 @@
 import { Text, StyleSheet, View, ActivityIndicator } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { FlatList, RefreshControl } from "react-native";
 import Post from "../components/Post";
 import ButtonNewPost from "../components/ButtonNewPost";
 import UserProfile from "../components/UserProfile";
 import { useLogin } from "../context/LoginProvider";
-import { NavigationProp, useFocusEffect } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CreatePost from "../tabs/CreatePost";
 
@@ -28,7 +28,9 @@ const Feed = (props: Props) => {
   const [userToView, setUserToView] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [errorText, setErrorText] = useState("");
-  const { userToken } = useLogin() || { console: "error" };
+  const [renderCount, setRenderCount] = useState(0);
+
+  const { userToken, userID } = useLogin() || { console: "error" };
 
   let url = "";
 
@@ -44,6 +46,7 @@ const Feed = (props: Props) => {
   }
 
   const fetchPosts = async () => {
+
     setIsLoading(true);
     try {
       const response = await fetch(url, {
@@ -71,6 +74,7 @@ const Feed = (props: Props) => {
         throw new Error(data.error);
       }
     } catch (error) {
+      setPosts([]);
       if (error instanceof Error) {
         setErrorText(error.message);
       } else {
@@ -82,8 +86,13 @@ const Feed = (props: Props) => {
   };
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       fetchPosts();
+      setRenderCount(renderCount + 1);
+      
+
+      return () => {
+      };
     }, [])
   );
 
@@ -94,6 +103,7 @@ const Feed = (props: Props) => {
   }
 
   function ToUserProfile({ id, navigation }: { id:number, navigation: NavigationProp<any> }) {
+    
     return (
       <>
         <UserProfile profileId = {id}/>
@@ -126,6 +136,9 @@ const Feed = (props: Props) => {
               id={item.id}
               onPostUpdated={fetchPosts}
               navFrom={() => ProfileHanler(item.user_id, navigation)}	
+              isLiked={item.likes.includes(userID)}
+              onLike={fetchPosts}
+
             />}
           refreshControl={
             <RefreshControl

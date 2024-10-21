@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from "react";
-import { StyleSheet, Text, View, Image, ActivityIndicator } from "react-native";
+import { StyleSheet, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 
@@ -48,11 +48,11 @@ const Navigation = () => {
           let iconSource;
 
           if (route.name === "All Posts") {
-            iconSource = require("../../assets/house-chimney.png"); // Ruta de tu ícono
+            iconSource = require("../../assets/house-chimney.png"); 
           } else if (route.name === "Following") {
-            iconSource = require("../../assets/users.png"); // Ruta de tu ícono
+            iconSource = require("../../assets/users.png"); 
           } else if (route.name === "Profile") {
-            iconSource = require("../../assets/user.png"); // Ruta de tu ícono
+            iconSource = require("../../assets/user.png"); 
           }
 
           return <TabIcon source={iconSource} />;
